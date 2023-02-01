@@ -1,6 +1,4 @@
-
-
-name: tx-fuzz workflow
+name: methodical-ssz workflow
 
 
 on:
