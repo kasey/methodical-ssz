@@ -258,7 +258,6 @@ func (g *generateList) generateUnmarshalValue(fieldName string, sliceName string
 		return g.generateUnmarshalVariableValue(fieldName, sliceName)
 	} else {
 		return g.generateUnmarshalFixedValue(fieldName, sliceName)
-
 	}
 }
 
@@ -301,7 +300,7 @@ func (g *generateList) variableSizeSSZ(fieldName string) string {
 	if err != nil {
 		panic(err)
 	}
-	return string(buf.Bytes())
+	return buf.String()
 }
 
 var generateVariableMarshalValueTmpl = `if len({{ .FieldName }}) > {{ .MaxSize }} {
@@ -342,7 +341,7 @@ func variableOffsetManagement(vg valueGenerator, fieldName, nestedFieldName stri
 	if err != nil {
 		panic(err)
 	}
-	return string(buf.Bytes())
+	return buf.String()
 }
 
 var tmplGenerateMarshalValueList = `if len({{.FieldName}}) > {{.MaxSize}} {
@@ -397,7 +396,7 @@ func (g *generateList) generateVariableMarshalValue(fieldName string) string {
 	if err != nil {
 		panic(err)
 	}
-	return string(buf.Bytes())
+	return buf.String()
 }
 
 var _ valueGenerator = &generateList{}

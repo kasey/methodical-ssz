@@ -39,11 +39,11 @@ func GenerateMarshalSSZ(g *generateContainer) *generatedCode {
 		if ok {
 			ini := vi.initializeValue(fieldName)
 			if ini != "" {
-				marshalValueBlocks = append(marshalValueBlocks , fmt.Sprintf("if %s == nil {\n\t%s = %s\n}", fieldName, fieldName, ini))
+				marshalValueBlocks = append(marshalValueBlocks, fmt.Sprintf("if %s == nil {\n\t%s = %s\n}", fieldName, fieldName, ini))
 			}
 		}
 		mv := mg.generateFixedMarshalValue(fieldName)
-		marshalValueBlocks = append(marshalValueBlocks, "\t" + mv)
+		marshalValueBlocks = append(marshalValueBlocks, "\t"+mv)
 		offset += c.Value.FixedSize()
 		if !c.Value.IsVariableSized() {
 			continue
@@ -55,7 +55,7 @@ func GenerateMarshalSSZ(g *generateContainer) *generatedCode {
 		vmc := vm.generateVariableMarshalValue(fieldName)
 		if vmc != "" {
 			marshalVariableValueBlocks = append(marshalVariableValueBlocks, fmt.Sprintf("\n\t// Field %d: %s", i, c.Key))
-			marshalVariableValueBlocks = append(marshalVariableValueBlocks, "\t" + vmc)
+			marshalVariableValueBlocks = append(marshalVariableValueBlocks, "\t"+vmc)
 		}
 	}
 	// only set the offset declaration if we need it
@@ -67,17 +67,17 @@ func GenerateMarshalSSZ(g *generateContainer) *generatedCode {
 		offsetDeclaration = fmt.Sprintf("\noffset := %d\n", offset)
 	}
 
-	err = sizeTmpl.Execute(buf, struct{
-		Receiver string
-		Type string
-		OffsetDeclaration string
-		ValueMarshaling string
+	err = sizeTmpl.Execute(buf, struct {
+		Receiver                string
+		Type                    string
+		OffsetDeclaration       string
+		ValueMarshaling         string
 		VariableValueMarshaling string
 	}{
-		Receiver: receiverName,
-		Type: fmt.Sprintf("*%s", g.TypeName()),
-		OffsetDeclaration: offsetDeclaration,
-		ValueMarshaling: "\n" + strings.Join(marshalValueBlocks, "\n"),
+		Receiver:                receiverName,
+		Type:                    fmt.Sprintf("*%s", g.TypeName()),
+		OffsetDeclaration:       offsetDeclaration,
+		ValueMarshaling:         "\n" + strings.Join(marshalValueBlocks, "\n"),
 		VariableValueMarshaling: "\n" + strings.Join(marshalVariableValueBlocks, "\n"),
 	})
 	// TODO: allow GenerateMarshalSSZ to return an error since template.Execute
@@ -86,7 +86,7 @@ func GenerateMarshalSSZ(g *generateContainer) *generatedCode {
 		panic(err)
 	}
 	return &generatedCode{
-		blocks:  []string{string(buf.Bytes())},
+		blocks:  []string{buf.String()},
 		imports: extractImportsFromContainerFields(g.Contents, g.targetPackage),
 	}
 }

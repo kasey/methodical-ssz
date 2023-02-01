@@ -39,7 +39,7 @@ func TestGenerator_Generate(t *testing.T) {
 }
 
 func TestGenerator_GenerateBeaconState(t *testing.T) {
-    t.Skip("fixtures need to be updated")
+	t.Skip("fixtures need to be updated")
 	b, err := os.ReadFile("testdata/TestGenerator_GenerateBeaconState.expected")
 	require.NoError(t, err)
 	formatted, err := format.Source(b)
@@ -91,8 +91,8 @@ func TestExtractImportsFromContainerFields(t *testing.T) {
 	require.Equal(t, "prysmaticlabs_go_bitfield", imports["github.com/prysmaticlabs/go-bitfield"])
 }
 
-func TestrenderedPackageName(t *testing.T) {
-       before := "github.com/prysmaticlabs/prysm/v3/proto/eth/v1"
-       after := "v1"
-       require.Equal(t, after, renderedPackageName(before))
+func TestRenderedPackageName(t *testing.T) {
+	before := "github.com/prysmaticlabs/prysm/v3/proto/eth/v1"
+	after := "v1"
+	require.Equal(t, after, renderedPackageName(before))
 }

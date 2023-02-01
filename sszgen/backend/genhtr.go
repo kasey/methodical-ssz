@@ -47,13 +47,13 @@ func GenerateHashTreeRoot(g *generateContainer) *generatedCode {
 		}
 		htrSteps = append(htrSteps, htrp.generateHTRPutter(fieldName))
 	}
-	err  = htrTmpl.Execute(buf, struct{
+	err = htrTmpl.Execute(buf, struct {
 		Receiver string
-		Type string
+		Type     string
 		HTRSteps string
 	}{
 		Receiver: receiverName,
-		Type: fmt.Sprintf("*%s", g.TypeName()),
+		Type:     fmt.Sprintf("*%s", g.TypeName()),
 		HTRSteps: strings.Join(htrSteps, "\n"),
 	})
 	if err != nil {
@@ -62,7 +62,7 @@ func GenerateHashTreeRoot(g *generateContainer) *generatedCode {
 	// TODO: allow GenerateHashTreeRoot to return an error since template.Execute
 	// can technically return an error (get rid of the panics)
 	return &generatedCode{
-		blocks:  []string{string(buf.Bytes())},
+		blocks:  []string{buf.String()},
 		imports: extractImportsFromContainerFields(g.Contents, g.targetPackage),
 	}
 }

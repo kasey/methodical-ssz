@@ -229,6 +229,6 @@ func extractImportsFromContainerFields(cfs []types.ContainerField, targetPackage
 // renderedPackageName reduces the fully qualified package name to the relative package name, ie
 // github.com/prysmaticlabs/prysm/v3/proto/eth/v1 -> v1
 func renderedPackageName(n string) string {
-       parts := strings.Split(n, "/")
-       return parts[len(parts)-1]
+	parts := strings.Split(n, "/")
+	return parts[len(parts)-1]
 }

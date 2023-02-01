@@ -42,15 +42,15 @@ func GenerateSizeSSZ(g *generateContainer) *generatedCode {
 		}
 	}
 
-	err = sizeTmpl.Execute(buf, struct{
-		Receiver string
-		Type string
-		FixedSize int
+	err = sizeTmpl.Execute(buf, struct {
+		Receiver     string
+		Type         string
+		FixedSize    int
 		VariableSize string
 	}{
-		Receiver: receiverName,
-		Type: fmt.Sprintf("*%s", g.TypeName()),
-		FixedSize: fixedSize,
+		Receiver:     receiverName,
+		Type:         fmt.Sprintf("*%s", g.TypeName()),
+		FixedSize:    fixedSize,
 		VariableSize: "\n" + strings.Join(variableComputations, "\n"),
 	})
 	// TODO: allow GenerateSizeSSZ to return an error since template.Execute
@@ -59,7 +59,7 @@ func GenerateSizeSSZ(g *generateContainer) *generatedCode {
 		panic(err)
 	}
 	return &generatedCode{
-		blocks:  []string{string(buf.Bytes())},
+		blocks:  []string{buf.String()},
 		imports: extractImportsFromContainerFields(g.Contents, g.targetPackage),
 	}
 }
